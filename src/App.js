@@ -1,23 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import UserGrid from './UserGrid';
+import Navbar from './Navbar';
+import axios from 'axios';
 
 function App() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleGetUsersClick = async () => {
+    try {
+      setLoading(true);
+      let allUsers = [];
+      for (let page = 1; page <= 4; page++) {
+        const response = await axios.get(`https://reqres.in/api/users?page=${page}`);
+        allUsers = [...allUsers, ...response.data.data];
+        console.log(allUsers);
+      }
+      setUsers(allUsers);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar onGetUsersClick={handleGetUsersClick} />
+      <UserGrid users={users} loading={loading} />
     </div>
   );
 }
