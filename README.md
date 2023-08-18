@@ -29,9 +29,9 @@ To get a local copy of this project up and running, follow these steps.
  npm install
 
 ### Start the development server: 
- npm install
+ npm start
 ### Technologies Used
-React
-Axios
-Styled Components
+-- React
+-- Axios
+-- Styled Components
    
